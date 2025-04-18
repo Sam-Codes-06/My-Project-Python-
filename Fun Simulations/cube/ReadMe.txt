@@ -1,0 +1,1 @@
+In this program, I have used the concept of projection matrix to visualize how 3 dimensional figures are displayed on a screen which is 2D. The basic example used is of a cube, but even more complicated figures can be used using the same underlying principles.

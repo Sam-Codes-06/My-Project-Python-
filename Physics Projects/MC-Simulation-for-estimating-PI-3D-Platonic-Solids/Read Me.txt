@@ -1,0 +1,4 @@
+The main.py file is the main file to simualte the program. 
+graphics.py file is used for Graphics
+point_in_mesh is used to check if the randomly generated point is inside solid or not.
+get_data_for_pi file is used to get data for pi for n number of points for a given solid. It doesn't generate graphics, but only generates data which is saved as csv file. The csv files can be used in excel, calc or google spreadsheets to make graph.
