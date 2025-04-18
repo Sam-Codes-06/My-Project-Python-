@@ -1,0 +1,28 @@
+{
+  "Games": {
+    "2048": {
+      "highscore": 0,
+      "playtime": "00:00:00"
+    },
+    "Jump Up": {
+      "highscore": 0,
+      "playtime": "00:00:00"
+    },
+    "Pong": {
+      "highscore": 0,
+      "playtime": "00:00:00"
+    },
+    "Snake Game": {
+      "highscore": 0,
+      "playtime": "00:00:00"
+    },
+    "Tetris": {
+      "highscore": 0,
+      "playtime": "00:00:00"
+    },
+    "Tron": {
+      "highscore": 0,
+      "playtime": "00:00:00"
+    }
+  }
+}
