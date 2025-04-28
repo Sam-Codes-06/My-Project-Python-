@@ -30,7 +30,7 @@ class FFNN(nn.Module):
         self.fc3 = nn.Linear(128, 64)
         self.fc4 = nn.Linear(64, 1)
 
-    def forward(self, x):
+    def forward(self, x): # Very necessary. Forward function is called internally by the model. We don't call it explicitly unless required.
         x = self.activation(self.fc1(x))
         x = self.activation(self.fc2(x))
         x = self.activation(self.fc3(x))
