@@ -10,6 +10,8 @@ run = True
 colors = {"white": (255, 255, 255), "orange": (255, 127, 39), "green": (150, 253, 55), "blue": (74, 112, 169),
           "grey": (120, 120, 120), "black": (0, 0, 0), "red": (255, 0, 0)}
 
+font = pygame.font.SysFont(None, 36)
+
 
 class DROPS:
     def __init__(self, n_drops):
@@ -45,7 +47,7 @@ class DROPS:
                                                               self.drop_vfx[:, 1][k], self.drop_vfx[:, 2][k]))
                 else:
                     pygame.draw.rect(screen, colors['blue'], (self.pos[:, 0][i], self.pos[:, 1][i],
-                                                               self.drop_vfx[:, 1][k], self.drop_vfx[:, 2][k]))
+                                                              self.drop_vfx[:, 1][k], self.drop_vfx[:, 2][k]))
 
     def intensity(self, n):
         if n > 0:
@@ -108,6 +110,9 @@ rain_channel.pause()
 thunder = 0
 thunder_sound = None
 dark_mode = False
+initial_fade_in = True
+current_fade_volume = 0.0
+display_volume = 0.0
 
 while run:
     if dark_mode:
@@ -117,10 +122,33 @@ while run:
     rain_drops.rainfall(play)
 
     if play:
-        intensity_volume = (8 * rain_drops.n_drops / 9000) + (1 / 9)
-        intensity_volume = max(0.2, min(1.0, intensity_volume))
+        target_volume = (8 * rain_drops.n_drops / 9000) + (1 / 9)
+        target_volume = max(0.2, min(1.0, target_volume))
 
-        sound_effects(intensity_volume)
+        final_volume = 0.0
+
+        if initial_fade_in:
+            current_fade_volume += 0.0005
+            if current_fade_volume >= target_volume:
+                final_volume = target_volume
+                initial_fade_in = False
+            else:
+                final_volume = current_fade_volume
+        else:
+            final_volume = target_volume
+
+        display_volume = final_volume
+        sound_effects(final_volume)
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LCTRL] or keys[pygame.K_RCTRL]:
+        if dark_mode:
+            text_color = colors['white']
+        else:
+            text_color = colors['black']
+
+        text_surface = font.render(f"Drops: {rain_drops.n_drops} | Intensity: {display_volume:.2f}", True, text_color)
+        screen.blit(text_surface, (10, 10))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -140,10 +168,12 @@ while run:
                     if thunder_sound:
                         thunder_sound.unpause()
             if event.key == pygame.K_UP:
+                initial_fade_in = False
                 if rain_drops.n_drops < 1000:
                     rain_drops.n_drops += 10
                     rain_drops.intensity(10)
             if event.key == pygame.K_DOWN:
+                initial_fade_in = False
                 if rain_drops.n_drops > 100:
                     rain_drops.n_drops -= 10
                     rain_drops.intensity(-10)
